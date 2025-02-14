@@ -22,7 +22,7 @@ namespace IdentityFrameworkAPI.Models.AppDBContext
         {
             modelBuilder.Entity<IdentityRole>().HasData(
                 
-                 new IdentityRole() { Name = "Admin" , ConcurrencyStamp = "1" , NormalizedName = "AdminUser" , Id = "1"},
+                 new IdentityRole() { Name = "Admin" , ConcurrencyStamp = "1" , NormalizedName = "Admin" , Id = "1"},
                  new IdentityRole() { Name = "User" , ConcurrencyStamp = "2" , NormalizedName = "User" , Id = "2"} ,
                   new IdentityRole() { Name = "HR", ConcurrencyStamp = "3", NormalizedName = "HR", Id = "3" }
 
