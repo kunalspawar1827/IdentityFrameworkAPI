@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IdentityFrameworkAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250214200910_SeedingData-ChangeInRoles")]
-    partial class SeedingDataChangeInRoles
+    [Migration("20250215061514_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
