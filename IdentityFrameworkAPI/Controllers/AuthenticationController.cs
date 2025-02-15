@@ -1,9 +1,16 @@
 ﻿using Azure;
+using IdentityFrameworkAPI.Models.Authentication.Login;
 using IdentityFrameworkAPI.Models.Authentication.SignUp;
 using IdentityFrameworkAPI.Models.Responce;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Runtime.CompilerServices;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace IdentityFrameworkAPI.Controllers
 {
@@ -24,18 +31,18 @@ namespace IdentityFrameworkAPI.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult> Register([FromBody] RegisterUserModel registerUser , string RoleName )
+        public async Task<ActionResult> Register([FromBody] RegisterUserModel registerUser, string RoleName)
         {
             // Check User Exist In DataBase Or Not For Perticular MailId
             var userExists = await _userManager.FindByEmailAsync(registerUser.Email);
             if (userExists != null)
             {
-                return StatusCode(StatusCodes.Status403Forbidden, 
+                return StatusCode(StatusCodes.Status403Forbidden,
                     new ResponceModel
                     {
-                    status = "Error",
-                    msg = "User already exists in the database. Please sign in or reset your password."
-                });
+                        status = "Error",
+                        msg = "User already exists in the database. Please sign in or reset your password."
+                    });
             }
             else
             {
@@ -45,11 +52,9 @@ namespace IdentityFrameworkAPI.Controllers
                     UserName = registerUser.Username,
                     Email = registerUser.Email,
                     PhoneNumber = registerUser.PhoneNumber,
-                    SecurityStamp = Guid.NewGuid().ToString() ,
-                   
+                    SecurityStamp = Guid.NewGuid().ToString(),
+
                 };
-
-
 
                 // Check Given Role Is Defined In System Or Not
 
@@ -62,11 +67,11 @@ namespace IdentityFrameworkAPI.Controllers
 
                         // If Due To Some Reason User Not Created Then Return Server Error
                         return StatusCode(StatusCodes.Status500InternalServerError,
-                      new ResponceModel
-                      {
-                          status = "Error",
-                          msg = "Unable To Create User Please Try Again SomeTime Later  !"
-                      });
+                        new ResponceModel
+                        {
+                            status = "Error",
+                            msg = "Unable To Create User Please Try Again SomeTime Later  !"
+                        });
 
 
 
@@ -84,14 +89,14 @@ namespace IdentityFrameworkAPI.Controllers
                 }
                 else
                 {
-                    
+
 
                     return StatusCode(StatusCodes.Status404NotFound,
-                 new ResponceModel
-                 {
-                     status = "Error",
-                     msg = "This User Role Not Exists !"
-                 });
+                    new ResponceModel
+                    {
+                        status = "Error",
+                        msg = "This User Role Not Exists !"
+                    });
 
                 }
 
